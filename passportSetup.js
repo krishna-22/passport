@@ -18,6 +18,10 @@ const authenticateUser=(username,password,done)=>
     .catch((err)=>done(err))
 }
 
+// when we login, authenticate() is called, which involkes above function. it passes user object to serialiser if credentials are correct. serialiser will set id feild of object 
+// req.passport.session.id.(also passed as cookie with response) // & then deserialiser is invoked. deserialiser fetches user object based on id and attached it to req.user
+// when logout is called, req.logout() is invoked which destroys req.passport.session.id, so cookie cant be passed with response from now
+
 const initialise=(passport)=>{
     passport.use(new Localstrategy((authenticateUser)))
     passport.serializeUser((user,done)=>{
